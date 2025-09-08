@@ -4,6 +4,7 @@ import cors from 'cors'
 import { setLocale } from 'yup';
 import { fr } from 'yup-locales';
 import users from "./routes/user.route.js"
+import publications from "./routes/publications.route.js"
 //import auth from 'basic-auth'
 
 
@@ -41,6 +42,7 @@ app.use(express.static('public'))
 setLocale(fr)
 
 app.use("/users", users)
+app.use("/publications", publications)
 
 
 app.set('view engine', 'ejs')
