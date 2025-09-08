@@ -10,7 +10,7 @@ CREATE TABLE users (
     id_users INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(30),
     prenom VARCHAR(30),
-    email VARCHAR(30),
+    email VARCHAR(30) UNIQUE,
     password VARCHAR(255),
     role VARCHAR(10)
 );

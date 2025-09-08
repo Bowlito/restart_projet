@@ -1,34 +1,37 @@
 import express from 'express';
 import 'dotenv/config';
+import cors from 'cors'
 import { setLocale } from 'yup';
 import { fr } from 'yup-locales';
 import users from "./routes/user.route.js"
-import auth from 'basic-auth'
+//import auth from 'basic-auth'
 
 
 const app = express();
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept')
-    next(); 
-})
+app.use(cors());
 
-const basicAuth = (req, res, next) => {
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', '*')
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT')
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept')
+//     next(); 
+// })
 
-    const userBase64 = req.headers["authorization"]
-    const unknowUser = auth(req)
+// const basicAuth = (req, res, next) => {
 
-    console.log(userBase64);
-    console.log(unknowUser);
+//     const userBase64 = req.headers["authorization"]
+//     const unknowUser = auth(req)
+
+//     console.log(userBase64);
+//     console.log(unknowUser);
     
     
-    next()
+//     next()
 
-}
+// }
 
-app.use(basicAuth)
+// app.use(basicAuth)
 
 
 app.use(express.json())
