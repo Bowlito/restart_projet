@@ -1,8 +1,6 @@
 import connection from '../config/db.config.js'
 
 
-
-
 const createPublication = async(publication) => {
     const INSERT = "INSERT INTO publication(titre, corps, chemin_image, id_users) VALUES(?, ?, ?, ?)"
 

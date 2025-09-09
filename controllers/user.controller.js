@@ -1,26 +1,9 @@
 import yup from '../config/yup.config.js'
 import bcrypt from 'bcrypt'
 import userRepository from '../repositories/user.repository.js'
+import userServices from '../services/user.services.js';
 
-const userSchema = yup.object().shape({
-    nom: yup
-        .string()
-        .required()
-        .matches(/^[A-Z]{1}.{2,19}$/, "Le nom doit commencer par une majuscule et comporter entre 3 et 20 lettres"),
-    prenom: yup
-        .string()
-        .min(3, (args) => `Le prénom doit contenir au moins ${args.min} caractères, valeur saisie : ${args.value} `)
-        .max(20),
-    email: yup
-        .string()
-        .required()
-        .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
-    password: yup
-        .string()
-        .min(2, (args) => `Le mot de passe doit contenir au moins ${args.min} caractères.`)
-        .max(20)
 
-})
 
 const showAll = async (req, res, next) => {
     const users = await userRepository.findAll()
@@ -41,23 +24,19 @@ const showOne = async (req, res, next) => {
         .sendStatus(404)
 }
 
-const addUser = async (req, res, next) => {
-    userSchema
-        .validate(req.body, {abortEarly: false})
-        .then(async () => {
-            const user = await userRepository.save(req.body)
-            
-            if (user == null) {
-                return res.sendStatus(404)
-            }
-            return res
-                .status(201)
-                .json(user)
-        })
-        .catch(async err =>{
-            res
-                .sendStatus(500)
-        } )
+const signUp = async (req, res, next) => {
+
+    try {
+        const data = req.body
+        const user = await userServices.addUser(data)
+        return res
+            .status(201)
+            .json(user)
+    } catch (error) {
+        return res
+            .sendStatus(400)
+    }
+
 }
 
 const remove = async (req, res, next) => {
@@ -76,7 +55,7 @@ const remove = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     if (req.params.id != req.body.id) {
-                
+
         return res
             .sendStatus(400)
             .json(req.body)
@@ -114,15 +93,15 @@ const login = async (req, res, next) => {
         return res
             .status(200)
             .json({ message: "Connexion réussie" });
-            
+
     } else {
         console.log("Mot de passe erroné.");
         return res
             .sendStatus(401)
-        
+
     }
 }
 
 
 
-export default { showAll, showOne, addUser, remove, update, login }
+export default { showAll, showOne, signUp, remove, update, login }
