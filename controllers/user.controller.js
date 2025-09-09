@@ -1,4 +1,5 @@
 import yup from '../config/yup.config.js'
+import bcrypt from 'bcrypt'
 import userRepository from '../repositories/user.repository.js'
 
 const userSchema = yup.object().shape({
@@ -100,6 +101,28 @@ const update = async (req, res, next) => {
         })
 }
 
+const login = async (req, res, next) => {
+    const email = req.body.email
+    const user = await userRepository.findByEmail(email)
+
+    if (!user) {
+        console.log("Utilisateur introuvable");
+        return res
+            .sendStatus(401)
+    }
+    if (await bcrypt.compare(req.body.password, user.password)) {
+        return res
+            .status(200)
+            .json({ message: "Connexion réussie" });
+            
+    } else {
+        console.log("Mot de passe erroné.");
+        return res
+            .sendStatus(401)
+        
+    }
+}
 
 
-export default { showAll, showOne, addUser, remove, update }
+
+export default { showAll, showOne, addUser, remove, update, login }

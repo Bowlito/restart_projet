@@ -9,5 +9,13 @@ const lastFive = async(req, res, next) => {
         
 }
 
-export default { lastFive }
+const create = async (req, res, next) => {
+    const publication = req.body
+    const contenu  = await publicationsRepository.createPublication(publication)
+    return res
+        .status(201)
+        .json(contenu)
+}
+
+export default { lastFive, create }
 

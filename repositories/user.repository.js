@@ -25,6 +25,18 @@ const findById = async (id) => {
     }
 }
 
+const findByEmail = async (email) => {
+    const SELECT = "SELECT * FROM users where email=?"
+    try {
+        const resultat = await connection.query(SELECT, [email])
+        return resultat[0][0]
+    } catch (error) {
+        console.error("Erreur findByEmail pour email:", email, error);
+        return null
+    }
+}
+
+
 const save = async (user) => {
         
     const INSERT = "INSERT INTO users values (null, ?, ?, ?, ?, ?)"
@@ -62,4 +74,4 @@ const update = async (user) => {
     return null
 }
 
-export default { findAll, save, deleteById, findById, update }
+export default { findAll, save, deleteById, findById, update, findByEmail }
