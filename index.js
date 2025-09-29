@@ -47,9 +47,6 @@ app.use("/publications", publications)
 app.use("/commentaires", commentaires)
 
 
-// app.set('view engine', 'ejs')
-// app.set('views', import.meta.dirname + '/templates')
-// app.set('view options', { delimiter: '?' })
 
 
 app.all('/*splat', (req, res) => {
