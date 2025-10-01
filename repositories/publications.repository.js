@@ -1,3 +1,4 @@
+import { id } from 'yup-locales'
 import connection from '../config/db.config.js'
 
 
@@ -17,8 +18,8 @@ const createPublication = async(publication) => {
 
 
 
-const findFiveLast = async() => {
-    const SELECT = "SELECT * FROM publication ORDER BY created_at DESC LIMIT 5"
+const showPublications = async() => {
+    const SELECT = "SELECT * FROM publication"
     try {
        const publications =  await connection.query(SELECT)
        return publications[0]
@@ -28,4 +29,16 @@ const findFiveLast = async() => {
     }
 }
 
-export default { findFiveLast, createPublication }
+const findById = async (id) => {
+const SELECT = "SELECT * FROM publication WHERE id_publication=?"
+try {
+    const publications = await connection.query(SELECT, id)
+    return publications[0][0]
+} catch (error) {
+    console.log("ERREUR COM BDD : ",error);
+    return null
+    
+}
+}
+
+export default { showPublications, createPublication, findById }

@@ -30,4 +30,5 @@ const createPublication = async (publicationData) => {
 };
 
 
+
 export default { createPublication }

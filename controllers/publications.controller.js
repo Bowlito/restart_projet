@@ -2,9 +2,9 @@ import yup from '../config/yup.config.js'
 import publicationsServices from '../services/publications.services.js'
 import publicationsRepository from '../repositories/publications.repository.js'
 
-const lastFive = async (req, res, next) => {
+const showAll = async (req, res, next) => {
     try {
-        const publications = await publicationsRepository.findFiveLast()
+        const publications = await publicationsRepository.showPublications()
         if (publications.length < 1) {
             console.log("Aucune publication ...");
 
@@ -30,5 +30,16 @@ const create = async (req, res, next) => {
         .json(contenu)
 }
 
-export default { lastFive, create }
+const showOne = async (req, res, next) => {
+    const id = req.params.id;
+    const post = await publicationsRepository.findById(id);
+    if (post) {
+        return res
+            .status(200)
+            .json(post);
+    }
+    return res.sendStatus(404);
+};
+
+export default { showAll, create, showOne }
 
