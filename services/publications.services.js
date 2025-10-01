@@ -7,7 +7,6 @@ import yup from 'yup';
 const publicationSchema = yup.object().shape({
     titre: yup.string().required('Le titre est obligatoire').max(255),
     corps: yup.string().required('Le contenu est obligatoire'),
-    chemin_image: yup.string().url().nullable(),
     id_users: yup.number().integer().required('L’utilisateur est obligatoire')
 });
 
@@ -20,7 +19,7 @@ const createPublication = async (publicationData) => {
         throw new Error("utilisateur inconnu")
     }
     try {
-        const createdPublication = await publicationsRepository.createPublication(publication);
+        const createdPublication = await publicationsRepository.createPublication(publication, publication.chemin_image);
         return createdPublication;
 
     } catch (error) {

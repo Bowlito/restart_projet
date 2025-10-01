@@ -10,4 +10,35 @@ const addCom = async(req,res,next)=>{
         .json(com)
 }
 
-export default { addCom }
+const showAll = async (req, res, next) => {
+    try {
+        const commentaires = await commentairesRepository.allComs()
+        if (commentaires.length < 1) {
+            console.log("Aucun commentaire ...");
+
+            return res
+                .sendStatus(404)
+        }
+        return res
+            .status(200)
+            .json(commentaires)
+
+    } catch (error) {
+        return res
+            .sendStatus(500)
+    }
+
+}
+
+const theseComs = async(req, res, next)=>{
+    const postId = Number(req.params.id)
+    const coms = await commentairesRepository.showPostComs(postId);
+    if (coms) {
+        return res
+            .status(200)
+            .json(coms)
+    }
+    return res.sendStatus(404);
+}
+
+export default { addCom, theseComs, showAll }

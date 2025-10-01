@@ -15,6 +15,29 @@ const createCom = async (com) => {
 
 }
 
+const allComs = async () => {
+    const SELECT = "SELECT * FROM commentaire"
+    try {
+        const resultat = await connection.query(SELECT)
+        return resultat[0]
+    } catch (error) {
+        console.log("Erreur de com avec BDD : ", error);
+        return null
+    }
+}
+
+const showPostComs = async (postId) => {
+    const SELECT = "SELECT c.id_com, c.corps, c.created_at, u.nom, u.prenom FROM commentaire c JOIN users u ON c.id_users = u.id_users   WHERE c.id_publication = ? ORDER BY c.created_at ASC" 
+    try {
+        const resultat = await connection.query(SELECT, [postId]);
+        return resultat[0];
+    } catch (error) {
+        console.log("Erreur de com avec BDD : ", error);
+        return [];
+    }
+};
+
+
 // Fonction pour retrouver tous les coms d'un user sur une publication spécifique (si besoin? jcp)
 
 // const checkCom = async(com) => {
@@ -27,4 +50,4 @@ const createCom = async (com) => {
 //     }
 // }
 
-export default { createCom }
+export default { createCom, showPostComs, allComs }

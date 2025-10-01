@@ -19,7 +19,7 @@ const createPublication = async(publication) => {
 
 
 const showPublications = async() => {
-    const SELECT = "SELECT * FROM publication"
+    const SELECT = "SELECT * FROM publication ORDER BY created_at DESC"
     try {
        const publications =  await connection.query(SELECT)
        return publications[0]
