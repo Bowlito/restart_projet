@@ -8,5 +8,6 @@ routeur.get('/', publicationsController.showAll)
 routeur.get('/:id', publicationsController.showOne)
 routeur.get('/:id/commentaires', commentairesController.theseComs)
 routeur.post('/create', publicationsController.create)
+routeur.delete('/:id', publicationsController.remove)
 
 export default routeur

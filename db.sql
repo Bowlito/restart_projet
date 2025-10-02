@@ -1,4 +1,4 @@
--- Active: 1750235329113@@127.0.0.1@3306@tripster_db
+-- Active: 1752959162671@@127.0.0.1@3306@tripster_db
 
 DROP DATABASE IF EXISTS tripster_db;
 
@@ -19,10 +19,10 @@ INSERT INTO
     users
 VALUES (
         NULL,
-        "Test",
-        "test",
-        "test@test.fr",
-        "$2b$10$3H71jScFc1he11PSp6Rp7.y2jH3gqfSmJBLxUAJyYIGa1PNHUzDRO",
+        "Kappa",
+        "Tau",
+        "kappa@tau.fr",
+        "$2b$10$7V6Lk0FFlExNVN..ogvRSusdIcK9jzTShhuSZ.PJ7WmTvRFbC9iJi",
         "admin"
     );
 

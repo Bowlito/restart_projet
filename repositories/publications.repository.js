@@ -2,7 +2,7 @@ import { id } from 'yup-locales'
 import connection from '../config/db.config.js'
 
 
-const createPublication = async(publication) => {
+const createPublication = async (publication) => {
     const INSERT = "INSERT INTO publication(titre, corps, chemin_image, id_users) VALUES(?, ?, ?, ?)"
 
     try {
@@ -12,17 +12,17 @@ const createPublication = async(publication) => {
     } catch (error) {
         console.log("Erreur de la fonction createPublication : ", error);
         return null;
-        
+
     }
 }
 
 
 
-const showPublications = async() => {
+const showPublications = async () => {
     const SELECT = "SELECT * FROM publication ORDER BY created_at DESC"
     try {
-       const publications =  await connection.query(SELECT)
-       return publications[0]
+        const publications = await connection.query(SELECT)
+        return publications[0]
     } catch (error) {
         console.log(error);
         return null;
@@ -30,15 +30,25 @@ const showPublications = async() => {
 }
 
 const findById = async (id) => {
-const SELECT = "SELECT * FROM publication WHERE id_publication=?"
-try {
-    const publications = await connection.query(SELECT, id)
-    return publications[0][0]
-} catch (error) {
-    console.log("ERREUR COM BDD : ",error);
-    return null
-    
-}
+    const SELECT = "SELECT * FROM publication WHERE id_publication=?"
+    try {
+        const publications = await connection.query(SELECT, id)
+        return publications[0][0]
+    } catch (error) {
+        console.log("ERREUR COM BDD : ", error);
+        return null
+
+    }
 }
 
-export default { showPublications, createPublication, findById }
+const deleteById = async(id) => {
+    const DELETE = "DELETE FROM publication WHERE id_publication=?"
+    try {
+        await connection.query(DELETE, id)
+    } catch (error) {
+        console.log("Erreur lors de la suppression dans le repo : " ,error);
+        
+    }
+}
+
+export default { showPublications, createPublication, findById, deleteById }

@@ -1,3 +1,4 @@
 node_modules
 .env
 config/admin.pwd.js
+config/hashedpassword.js

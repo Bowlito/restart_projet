@@ -41,5 +41,17 @@ const showOne = async (req, res, next) => {
     return res.sendStatus(404);
 };
 
-export default { showAll, create, showOne }
+const remove = async (req, res, next) => {
+    const id = Number(req.params.id);
+    const post = await publicationsRepository.findById(id)
+
+    if (post) {
+        await publicationsRepository.deleteById(id)
+        return res.sendStatus(200);
+
+    }
+    return res.sendStatus(404);
+}
+
+export default { showAll, create, showOne, remove }
 
