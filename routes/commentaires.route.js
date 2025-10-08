@@ -6,5 +6,6 @@ const routeur = express.Router()
 routeur.post('/', commentairesController.addCom)
 routeur.get('/', commentairesController.showAll)
 routeur.get('/:id', commentairesController.theseComs)
+routeur.delete('/:id', commentairesController.remove)
 
 export default routeur 

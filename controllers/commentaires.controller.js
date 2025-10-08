@@ -41,4 +41,16 @@ const theseComs = async(req, res, next)=>{
     return res.sendStatus(404);
 }
 
-export default { addCom, theseComs, showAll }
+const remove = async(req, res, next) => {
+    const id = Number(req.params.id);
+    const com = await commentairesRepository.findById(id)
+
+    if (com) {
+        await commentairesRepository.removeCom(id)
+        return res.sendStatus(200);
+    }
+
+    return res.sendStatus(404);
+}
+
+export default { addCom, theseComs, showAll, remove }
