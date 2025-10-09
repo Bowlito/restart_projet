@@ -15,6 +15,18 @@ const createCom = async (com) => {
 
 }
 
+const modCom = async(com) => {
+    const UPDATE = "UPDATE commentaire SET corps=? WHERE id_com=?"
+    try {
+        const modedCom = await connection.query(UPDATE, [com.corps, com.id_com])
+        return modedCom
+    } catch (error) {
+        console.log("Erreur fonction modCom : " + error);
+        
+        return null
+    }
+}
+
 const allComs = async () => {
     const SELECT = "SELECT * FROM commentaire"
     try {
@@ -70,4 +82,4 @@ const removeCom = async (comId) => {
 //     }
 // }
 
-export default { createCom, showPostComs, allComs, removeCom, findById }
+export default { createCom, showPostComs, allComs, removeCom, findById, modCom }

@@ -53,4 +53,12 @@ const remove = async(req, res, next) => {
     return res.sendStatus(404);
 }
 
-export default { addCom, theseComs, showAll, remove }
+const modify = async(req, res, next) => {
+    const com = req.body
+    const contenu = await commentairesRepository.modCom(com)
+    return res
+        .status(200)
+        .json(contenu)
+}
+
+export default { addCom, theseComs, showAll, remove, modify }

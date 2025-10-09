@@ -30,6 +30,7 @@ const createPublication = async (publicationData) => {
 
 const modifyPost = async (postData) => {
     const user = await userRepository.findById(postData.id_users)
+    const post = await publicationsRepository.findById(postData.id_publication)
     
     try {
         await publicationSchema.validate(postData, { abortEarly: false });
@@ -42,6 +43,9 @@ const modifyPost = async (postData) => {
 
     if (!user) {
         throw new Error("utilisateur inconnu")
+    }
+    if (!post) {
+        throw new Error("publication innexistante")
     }
 
     try {

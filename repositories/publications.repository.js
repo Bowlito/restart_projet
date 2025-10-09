@@ -32,7 +32,7 @@ const showPublications = async () => {
 const findById = async (id) => {
     const SELECT = "SELECT * FROM publication WHERE id_publication=?"
     try {
-        const publications = await connection.query(SELECT, id)
+        const publications = await connection.query(SELECT, [id])
         return publications[0][0]
     } catch (error) {
         console.log("ERREUR COM BDD : ", error);
@@ -52,9 +52,9 @@ const deleteById = async(id) => {
 }
 
 const modifyById = async(publication) => {
-    const UPDATE = "UPDATE publication SET titre=?, corps=?, chemin_image=? WHERE id_users=?"
+    const UPDATE = "UPDATE publication SET titre=?, corps=?, chemin_image=? WHERE id_users=? AND id_publication=?"
     try {
-        const post = connection.query(UPDATE, [publication.titre, publication.corps, publication.chemin_image, publication.id_users])
+        const post = await connection.query(UPDATE, [publication.titre, publication.corps, publication.chemin_image, publication.id_users, publication.id_publication])
         return post
     } catch (error) {
          console.log("Erreur lors de la modification dans le repo : " ,error);
