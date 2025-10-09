@@ -31,22 +31,7 @@ const userSchema = yup.object().shape({
     .max(20),
 });
 
-// const addUser = async (userData) => {
-//   try {
-//     await userSchema.validate(userData, { abortEarly: false });
-//     const existingUser = await userRepository.findByEmail(userData.email);
-//     console.log(existingUser.email == userData.email);
 
-//     if (existingUser && existingUser.email == userData.email) {
-//       throw new Error("Utilisateur déjà enregistré");
-//     }
-//     const user = await userRepository.save(userData);
-
-//     return user;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
 
 const addUser = async (userData) => {
   try {

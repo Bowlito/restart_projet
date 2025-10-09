@@ -51,4 +51,14 @@ const deleteById = async(id) => {
     }
 }
 
-export default { showPublications, createPublication, findById, deleteById }
+const modifyById = async(publication) => {
+    const UPDATE = "UPDATE publication SET titre=?, corps=?, chemin_image=? WHERE id_users=?"
+    try {
+        const post = connection.query(UPDATE, [publication.titre, publication.corps, publication.chemin_image, publication.id_users])
+        return post
+    } catch (error) {
+         console.log("Erreur lors de la modification dans le repo : " ,error);
+    }
+}
+
+export default { showPublications, createPublication, findById, deleteById,  modifyById}

@@ -16,6 +16,8 @@ const showAll = async (req, res, next) => {
             .json(publications)
 
     } catch (error) {
+        console.log("Erreur dans l'affichage de la liste des publications");
+        
         return res
             .sendStatus(500)
     }
@@ -25,6 +27,14 @@ const showAll = async (req, res, next) => {
 const create = async (req, res, next) => {
     const publication = req.body
     const contenu = await publicationsServices.createPublication(publication)
+    return res
+        .status(201)
+        .json(contenu)
+}
+
+const modify = async (req, res, next) => {
+    const post = req.body
+    const contenu = await publicationsServices.modifyPost(post)
     return res
         .status(201)
         .json(contenu)
@@ -53,5 +63,5 @@ const remove = async (req, res, next) => {
     return res.sendStatus(404);
 }
 
-export default { showAll, create, showOne, remove }
+export default { showAll, create, showOne, remove, modify }
 

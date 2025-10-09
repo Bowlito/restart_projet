@@ -28,6 +28,30 @@ const createPublication = async (publicationData) => {
     }
 };
 
+const modifyPost = async (postData) => {
+    const user = await userRepository.findById(postData.id_users)
+    
+    try {
+        await publicationSchema.validate(postData, { abortEarly: false });
+
+    } catch (error) {
+        console.log(error.errors);
+        console.log(error.inner);
+    }
+    
+
+    if (!user) {
+        throw new Error("utilisateur inconnu")
+    }
+
+    try {
+        const modifiedPost = await publicationsRepository.modifyById(postData, postData.chemin_image)
+        return modifiedPost;
+    } catch (error) {
+        throw error;
+    }
+}
 
 
-export default { createPublication }
+
+export default { createPublication, modifyPost }
