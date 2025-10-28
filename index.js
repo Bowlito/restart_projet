@@ -54,6 +54,10 @@ app.use("/commentaires", commentaires)
 
 
 
+
+
+
+
 app.all('/*splat', (req, res) => {
     res
         .status(404)
@@ -61,6 +65,9 @@ app.all('/*splat', (req, res) => {
 })
 
 const PORT = process.env.PORT || 5555;
+
+console.log("JWT-SECRET=", process.env.JWT_SECRET);
+
 
 app.listen(PORT, () => {
     console.log(`Adresse serveur : http://localhost:${PORT}`);

@@ -2,6 +2,7 @@ import yup from "../config/yup.config.js";
 import bcrypt from "bcrypt";
 import userRepository from "../repositories/user.repository.js";
 import userServices from "../services/user.services.js";
+import jwt from "jsonwebtoken"
 
 const showAll = async (req, res, next) => {
 	const users = await userRepository.findAll();
@@ -69,17 +70,29 @@ const login = async (req, res, next) => {
 		return res.sendStatus(401);
 	}
 	if (await bcrypt.compare(req.body.password, user.password)) {
+		const payload = {
+			nom: user.nom,
+			prenom: user.prenom,
+			email: user.email,
+			role: user.role
+		}
+
+		const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn : "5d"})
+
 		return res.status(200).json({
 			id: user.id_users,
 			nom: user.nom,
 			prenom: user.prenom,
 			email: user.email,
-			role: user.role
+			role: user.role,
+			token: token
 		});
 	} else {
 		console.log("Mot de passe erroné.");
-		return res.sendStatus(401);
+		return res.status(401).json({message: "Informations de connexion incorrectes"});
 	}
+
+
 };
 
 
