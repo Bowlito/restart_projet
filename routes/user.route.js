@@ -11,6 +11,6 @@ routeur.get('/:id',verifyToken, userController.showOne)
 routeur.post('/signUp', isNotAuth, userController.signUp)
 routeur.post('/login', isNotAuth, userController.login)
 routeur.delete('/:id', verifyToken, verifyRole, userController.remove)
-routeur.put('/:id', verifyToken, verifyRole, userController.update)
+routeur.put('/:id', verifyToken, userController.update)
 
 export default routeur 
