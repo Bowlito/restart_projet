@@ -71,6 +71,7 @@ const login = async (req, res, next) => {
 	}
 	if (await bcrypt.compare(req.body.password, user.password)) {
 		const payload = {
+			id: user.id_users,
 			nom: user.nom,
 			prenom: user.prenom,
 			email: user.email,

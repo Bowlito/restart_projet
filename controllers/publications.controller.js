@@ -17,7 +17,7 @@ const showAll = async (req, res, next) => {
 
     } catch (error) {
         console.log("Erreur dans l'affichage de la liste des publications");
-        
+
         return res
             .sendStatus(500)
     }
@@ -25,42 +25,80 @@ const showAll = async (req, res, next) => {
 }
 
 const create = async (req, res, next) => {
-    const publication = req.body
-    const contenu = await publicationsServices.createPublication(publication)
-    return res
-        .status(201)
-        .json(contenu)
+
+    try {
+        const publication = req.body
+        const contenu = await publicationsServices.createPublication(publication)
+        return res
+            .status(201)
+            .json(contenu)
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
+
 }
 
 const modify = async (req, res, next) => {
-    const post = req.body
-    const contenu = await publicationsServices.modifyPost(post)
-    return res
-        .status(201)
-        .json(contenu)
+
+    try {
+        const post = req.body
+        const existingPost = await publicationsRepository.findById(post.id_publication);
+
+        if (!existingPost) {
+            return res.sendStatus(404);
+        }
+
+        if ((existingPost.user_id !== req.user.id_users) && (req.user.role !== "admin")) {
+            return res.status(403).json({ message: "Pas autorisé : vous n'êtes pas l'auteur" });
+        }
+
+        const contenu = await publicationsServices.modifyPost(post)
+        return res
+            .status(201)
+            .json(contenu)
+    } catch (error) {
+        res.status(400).json({ message: error })
+    }
+
 }
 
 const showOne = async (req, res, next) => {
-    const id = req.params.id;
-    const post = await publicationsRepository.findById(id);
-    if (post) {
-        return res
-            .status(200)
-            .json(post);
+
+    try {
+        const id = req.params.id;
+        const post = await publicationsRepository.findById(id);
+        if (post) {
+            return res
+                .status(200)
+                .json(post);
+        }
+        return res.sendStatus(404);
+    } catch (error) {
+        res.status(400).json({ message: error })
     }
-    return res.sendStatus(404);
+
 };
 
 const remove = async (req, res, next) => {
-    const id = Number(req.params.id);
-    const post = await publicationsRepository.findById(id)
 
-    if (post) {
-        await publicationsRepository.deleteById(id)
+    try {
+
+        const id = Number(req.params.id);
+        const post = await publicationsRepository.findById(id)
+
+        if (!post) {
+            return res.sendStatus(404);
+        }
+
+        if ((post.user_id !== req.user.id_users) && (req.user.role !== "admin")) {
+            return res.status(403).json({ message: "Pas autorisé : vous n'êtes pas l'auteur" });
+        }
+        await publicationsRepository.deleteById(id);
         return res.sendStatus(200);
 
+    } catch (error) {
+        res.status(400).json({ message: error })
     }
-    return res.sendStatus(404);
 }
 
 export default { showAll, create, showOne, remove, modify }
