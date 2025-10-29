@@ -7,7 +7,7 @@ import yup from 'yup';
 const publicationSchema = yup.object().shape({
     titre: yup.string().required('Le titre est obligatoire').max(255),
     corps: yup.string().required('Le contenu est obligatoire'),
-    id_users: yup.number().integer().required('L’utilisateur est obligatoire')
+    
 });
 
 const createPublication = async (publicationData) => {

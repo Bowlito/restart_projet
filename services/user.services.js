@@ -1,5 +1,6 @@
 import yup from "../config/yup.config.js";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from 'uuid';
 import userRepository from "../repositories/user.repository.js";
 
 const userSchema = yup.object().shape({
@@ -48,7 +49,7 @@ const addUser = async (userData) => {
       throw new Error("Utilisateur déjà enregistré");
     }
 
-    const user = await userRepository.save(userData);
+    const user = await userRepository.save({id_users:uuidv4() ,...userData});
     return user;
   } catch (error) {
     throw error;
