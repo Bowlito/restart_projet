@@ -7,6 +7,8 @@ const routeur = express.Router()
 
 routeur.get('/', publicationsController.showAll)
 routeur.get('/:id', verifyToken, publicationsController.showOne)
+routeur.get('/count/:id', publicationsController.count)
+routeur.get('/famous/:id', publicationsController.famous)
 routeur.get('/:id/commentaires', verifyToken, commentairesController.theseComs)
 routeur.post('/create', verifyToken, publicationsController.create)
 routeur.put('/modify', verifyToken, publicationsController.modify)

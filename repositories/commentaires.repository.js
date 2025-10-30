@@ -69,6 +69,18 @@ const removeCom = async (comId) => {
     }
 }
 
+const countUserComs = async(userId) => {
+
+    const SELECT = "SELECT COUNT(*) AS ComCount FROM commentaire WHERE id_users=?"
+    try {
+        const [[{ComCount}]] = await connection.query(SELECT, [userId])
+        console.log("Compte des coms", ComCount);
+        
+        return ComCount
+    } catch (error) {
+        console.log("Erreur lors de la recherche dans le repo : ", error);
+    }
+}
 
 // Fonction pour retrouver tous les coms d'un user sur une publication spécifique (si besoin? jcp)
 
@@ -81,5 +93,14 @@ const removeCom = async (comId) => {
 //         return null
 //     }
 // }
+// const countComByUserAndPostId = async(userId, postId) => {
+//     const SELECT = "SELECT COUNT(userId) AS NumberOfCom FROM commentaire WHERE id_users=? AND id_publication=? "
+//     try {
+//         const compte = await connection.query(SELECT, [userId, postId])
+//         return compte[0][0].NumberOfCom
+//     } catch (error) {
+//         console.log("Erreur lors du compte dans le repo : " ,error);
+//     }
+// }
 
-export default { createCom, showPostComs, allComs, removeCom, findById, modCom }
+export default { createCom, showPostComs, allComs, removeCom, findById, modCom, countUserComs }

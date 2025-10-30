@@ -61,4 +61,32 @@ const modifyById = async(publication) => {
     }
 }
 
-export default { showPublications, createPublication, findById, deleteById,  modifyById}
+const countPublicationByUserId = async(userId) => {
+    const SELECT = "SELECT COUNT(*) AS NumberOfPost FROM publication WHERE id_users=?"
+    try {
+        //const compte = await connection.query(SELECT, [userId])
+        const [[{NumberOfPost}]] = await connection.query(SELECT, [userId])
+
+        console.log(NumberOfPost);
+        
+        
+        return Number(NumberOfPost)
+    } catch (error) {
+        console.log("Erreur lors du compte dans le repo : " ,error);
+    }
+}
+
+const mostFamousPost = async(userId) => {
+    const SELECT = "SELECT p.id_publication, p.titre, COUNT(c.id_com) AS nbrComs FROM publication p LEFT JOIN commentaire c ON c.id_publication = p.id_publication WHERE p.id_users = ? GROUP BY p.id_publication ORDER BY nbrComs DESC LIMIT 1"
+
+    try {
+        const [publication] = await connection.query(SELECT, [userId])
+        
+        console.log(publication[0]);
+        
+        return publication[0] || null
+    } catch (error) {
+        console.log("Erreur lors de la sélection dans le repo : " ,error);
+    }
+}
+export default { showPublications, createPublication, findById, deleteById,  modifyById, countPublicationByUserId, mostFamousPost}

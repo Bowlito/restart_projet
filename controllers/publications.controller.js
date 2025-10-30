@@ -101,5 +101,32 @@ const remove = async (req, res, next) => {
     }
 }
 
-export default { showAll, create, showOne, remove, modify }
+const count = async(req, res, next) => {
+    try {
+        const userId = req.params.id 
+        
+        const nbrPosts = await publicationsRepository.countPublicationByUserId(userId)
+        console.log(nbrPosts);
+        
+        return res.status(200).json(nbrPosts)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
+const famous = async(req, res, next) => {
+    try {
+        const userId = req.params.id
+        if (!userId) return res.status(400).json({ message: "ID utilisateur manquant" });
+
+        const famousPost = await publicationsRepository.mostFamousPost(userId)
+        console.log(famousPost);
+
+        return res.status(200).json(famousPost)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
+export default { showAll, create, showOne, remove, modify, count, famous }
 
