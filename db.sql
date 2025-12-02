@@ -1,4 +1,4 @@
--- Active: 1750235329113@@127.0.0.1@3306@tripster_db
+-- Active: 1764582467725@@127.0.0.1@3306
 
 DROP DATABASE IF EXISTS tripster_db;
 
